@@ -3,13 +3,14 @@ import React, {useEffect} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {TodoListContext} from '../../../App';
 import TodoAppBar from '../../components/appBar/todo/TodoAppBar';
-import ToDoCardItem from '../../components/cards/ToDoCardItem';
+import FilterCard from '../../components/cards/filter/FilterCard';
+import ToDoCardItem from '../../components/cards/todo/ToDoCardItem';
 import {TodoPageNavigationProp} from '../../types/pages';
 import {TodoItemPropsType} from '../../types/todo';
 
 const TodoPage = () => {
   const navigation = useNavigation<TodoPageNavigationProp>();
-  const {getAllData, deleteTodo, updateTodo} =
+  const {todo, getAllData, deleteTodo, updateTodo, sortBy, sortTodo} =
     React.useContext(TodoListContext);
 
   useEffect(() => {
@@ -17,42 +18,48 @@ const TodoPage = () => {
   }, [getAllData]);
 
   return (
-    <TodoListContext.Consumer>
-      {consumer => (
-        <View style={styles.container}>
-          <TodoAppBar
-            label={'To Do'}
-            onCreate={() => {
-              navigation.navigate('Form', {});
+    <View style={styles.container}>
+      <TodoAppBar
+        label={'To Do'}
+        onCreate={() => {
+          navigation.navigate('Form', {});
+        }}
+      />
+      <FlatList
+        data={todo}
+        ListHeaderComponent={() => {
+          return (
+            <FilterCard
+              onChange={value => {
+                sortTodo(value);
+              }}
+              type={sortBy}
+            />
+          );
+        }}
+        renderItem={({item, index}: TodoItemPropsType) => (
+          <ToDoCardItem
+            id={item.id}
+            status={item.status}
+            description={item.description}
+            priorityType={item.priorityType}
+            title={item.title}
+            key={index}
+            onCheck={() => {
+              updateTodo({...item, status: !item.status});
+            }}
+            onDelete={() => {
+              deleteTodo(item);
+            }}
+            onEdit={() => {
+              navigation.navigate('Form', {
+                task: item,
+              });
             }}
           />
-          <FlatList
-            data={consumer.todo}
-            renderItem={({item, index}: TodoItemPropsType) => (
-              <ToDoCardItem
-                id={item.id}
-                status={item.status}
-                description={item.description}
-                priorityType={item.priorityType}
-                title={item.title}
-                key={index}
-                onCheck={() => {
-                  updateTodo({...item, status: !item.status});
-                }}
-                onDelete={() => {
-                  deleteTodo(item);
-                }}
-                onEdit={() => {
-                  navigation.navigate('Form', {
-                    task: item,
-                  });
-                }}
-              />
-            )}
-          />
-        </View>
-      )}
-    </TodoListContext.Consumer>
+        )}
+      />
+    </View>
   );
 };
 

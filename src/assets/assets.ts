@@ -12,4 +12,6 @@ export const imagePath = {
   EDIT: require('./images/edit.png'),
   DELETE: require('./images/delete.png'),
   BACK: require('./images/back.png'),
+  ATOZ: require('./images/atoz.png'),
+  ZTOA: require('./images/ztoa.png'),
 };

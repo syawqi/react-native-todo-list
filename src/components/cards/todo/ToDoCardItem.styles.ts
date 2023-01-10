@@ -1,7 +1,7 @@
 import {StyleSheet, useWindowDimensions} from 'react-native';
-import font from '../../theme/font';
-import theme from '../../theme/theme';
-import {TodoPriorityType} from '../../types/todo';
+import font from '../../../theme/font';
+import theme from '../../../theme/theme';
+import {TodoPriorityType} from '../../../types/todo';
 export default (priorityType: TodoPriorityType) => {
   const {scale, fontScale} = useWindowDimensions();
   const fontConfig = font();

@@ -1,11 +1,13 @@
 import {useCallback, useState} from 'react';
-import {TodoPropsType} from './../types/todo';
+import {TodoPriorityType, TodoPropsType, TodoSortType} from './../types/todo';
 import {getSharedData, storeSharedData} from './../utils/shared';
 
 export const useTodoList = () => {
   const [allData, setAllData] = useState<TodoPropsType[]>([]);
 
   const [todo, setTodo] = useState<TodoPropsType[]>([]);
+
+  const [sortBy, setSortBy] = useState<TodoSortType>(TodoSortType.AZ);
 
   const [history, setHistory] = useState<TodoPropsType[]>([]);
 
@@ -17,21 +19,115 @@ export const useTodoList = () => {
     }
   };
 
+  const sortTodos = useCallback(
+    async (sort: TodoSortType) => {
+      let todos: TodoPropsType[] = [];
+      todos.push(...todo);
+
+      var high = todos.filter(element => {
+        return element.priorityType === TodoPriorityType.HIGH;
+      });
+
+      var medium = todos.filter(element => {
+        return element.priorityType === TodoPriorityType.MEDIUM;
+      });
+
+      var low = todos.filter(element => {
+        return element.priorityType === TodoPriorityType.LOW;
+      });
+
+      if (sort === TodoSortType.AZ) {
+        todos.sort(function (a: TodoPropsType, b: TodoPropsType) {
+          if (a && b) {
+            if (a.title! < b?.title!) {
+              return -1;
+            }
+            if (a.title! > b.title!) {
+              return 1;
+            }
+          }
+          return 0;
+        });
+      }
+
+      if (sort === TodoSortType.ZA) {
+        todos.sort(function (a: TodoPropsType, b: TodoPropsType) {
+          if (a && b) {
+            if (b.title! < a?.title!) {
+              return -1;
+            }
+            if (b.title! > a.title!) {
+              return 1;
+            }
+          }
+          return 0;
+        });
+      }
+
+      if (sort === TodoSortType.HIGH) {
+        todos = [];
+
+        todos.push(...high, ...medium, ...low);
+      }
+
+      if (sort === TodoSortType.MEDIUM) {
+        todos = [];
+
+        todos.push(...medium, ...high, ...low);
+      }
+
+      if (sort === TodoSortType.LOW) {
+        todos = [];
+
+        todos.push(...low, ...high, ...medium);
+      }
+
+      setTodo(todos);
+      setSortBy(sort);
+    },
+    [todo],
+  );
+
   const getAllData = useCallback(async () => {
     var datas: TodoPropsType[] = await getDataFromStorage();
 
     if (datas) {
-      var newTodo = datas.filter(element => {
-        return element.status === false;
-      });
+      setAllData(datas);
 
-      var newHistory = datas.filter(element => {
-        return element.status === true;
-      });
+      var newTodo = datas
+        .filter(element => {
+          return element.status === false;
+        })
+        .sort(function (a: TodoPropsType, b: TodoPropsType) {
+          if (a && b) {
+            if (a.title! < b?.title!) {
+              return -1;
+            }
+            if (a.title! > b.title!) {
+              return 1;
+            }
+          }
+          return 0;
+        });
+
+      var newHistory = datas
+        .filter(element => {
+          return element.status === true;
+        })
+        .sort(function (a: TodoPropsType, b: TodoPropsType) {
+          if (a && b) {
+            if (a.title! < b?.title!) {
+              return -1;
+            }
+            if (a.title! > b.title!) {
+              return 1;
+            }
+          }
+          return 0;
+        });
 
       setTodo(newTodo);
       setHistory(newHistory);
-      setAllData(datas);
     }
   }, []);
 
@@ -55,6 +151,8 @@ export const useTodoList = () => {
     todos.push(newData);
 
     await storeSharedData('TODO', JSON.stringify(todos));
+
+    setSortBy(TodoSortType.AZ);
 
     getAllData();
   };
@@ -86,7 +184,7 @@ export const useTodoList = () => {
     todos[index] = newData;
 
     await storeSharedData('TODO', JSON.stringify(todos));
-
+    setSortBy(TodoSortType.AZ);
     getAllData();
   };
 
@@ -107,6 +205,7 @@ export const useTodoList = () => {
 
     await storeSharedData('TODO', JSON.stringify(todos));
 
+    setSortBy(TodoSortType.AZ);
     getAllData();
   };
 
@@ -117,5 +216,7 @@ export const useTodoList = () => {
     createTodo,
     deleteTodo,
     updateTodo,
+    sortBy,
+    sortTodos,
   };
 };

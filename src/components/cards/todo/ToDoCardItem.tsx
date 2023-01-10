@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, Text, TouchableOpacity, View} from 'react-native';
-import {imagePath} from '../../assets/assets';
-import {TodoPriorityType, TodoPropsType} from '../../types/todo';
-import CommonIcon from '../images/common/CommonIcon';
+import {imagePath} from '../../../assets/assets';
+import {TodoPriorityType, TodoPropsType} from '../../../types/todo';
+import CommonIcon from '../../images/common/CommonIcon';
 import ToDoCardItemStyles from './ToDoCardItem.styles';
 
 const ToDoCardItem = ({
@@ -33,8 +33,14 @@ const ToDoCardItem = ({
 
   const deleteTask = () => {
     if (onDelete) {
-      onDelete();
-      setCheck(!check);
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        onDelete();
+      });
+      // setCheck(!check);
     }
   };
 

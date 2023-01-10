@@ -4,6 +4,14 @@ export enum TodoPriorityType {
   'LOW' = 'Low Priority',
 }
 
+export enum TodoSortType {
+  'AZ' = 'A to Z',
+  'ZA' = 'Z to A',
+  'HIGH' = 'High Priority',
+  'MEDIUM' = 'Medium Priority',
+  'LOW' = 'Low Priority',
+}
+
 export type TodoPropsType = {
   id?: string;
   title: string | null | undefined;
@@ -23,8 +31,10 @@ export type TodoItemPropsType = {
 export type TodoDatas = {
   todo: TodoPropsType[];
   history: TodoPropsType[];
+  sortBy: TodoSortType;
   getAllData: () => void;
   createTodo: ({title, description, priorityType}: TodoPropsType) => void;
   updateTodo: ({title, description, priorityType, id}: TodoPropsType) => void;
   deleteTodo: ({title, id}: TodoPropsType) => void;
+  sortTodo: (sort: TodoSortType) => void;
 };
