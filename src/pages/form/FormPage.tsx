@@ -15,6 +15,7 @@ import {FormPageNavigationProp, FormPageRouteProp} from '../../types/pages';
 import {TodoPriorityType} from '../../types/todo';
 import {callAlert} from '../../utils/alert';
 import FormPageStyles from './FormPage.styles';
+import theme from '../../theme/theme';
 
 const FormPage = () => {
   const navigation = useNavigation<FormPageNavigationProp>();
@@ -133,6 +134,7 @@ const FormPage = () => {
         style={styles.input}
         value={title}
         onChangeText={setTitle}
+        placeholderTextColor={theme.colors.grey}
         placeholder="Title"
         keyboardType="default"
       />
@@ -141,6 +143,7 @@ const FormPage = () => {
         value={description}
         onChangeText={setDescription}
         placeholder="Description"
+        placeholderTextColor={theme.colors.grey}
         keyboardType="default"
       />
       {selectionMode ? (

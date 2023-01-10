@@ -8,6 +8,10 @@ const ResumeCard = ({todos, histories}: {todos: number; histories: number}) => {
   return (
     <View style={styles.container}>
       <View style={styles.childContainer}>
+        <Text style={styles.title}>{todos + histories}</Text>
+        <Text style={styles.subTitle}>Total</Text>
+      </View>
+      <View style={styles.childContainer}>
         <Text style={styles.title}>{todos}</Text>
         <Text style={styles.subTitle}>To Do</Text>
       </View>

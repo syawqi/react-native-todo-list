@@ -15,6 +15,7 @@ export default () => {
       borderRadius: 10 / scale,
       padding: 20 / scale,
       fontSize: fontConfig.size[14],
+      color: theme.colors.black,
     },
     button: {
       marginTop: 100 / scale,
