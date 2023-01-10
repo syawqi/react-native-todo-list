@@ -10,7 +10,7 @@ const CommonAppBar = ({label, action, canBack}: CommonAppBarTypeProps) => {
   const styles = CommonAppBarStyles();
   const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={'common-app-bar'}>
       {canBack ? (
         <TouchableOpacity
           onPress={() => navigation.goBack()}

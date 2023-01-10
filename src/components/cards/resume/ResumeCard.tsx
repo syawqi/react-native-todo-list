@@ -6,7 +6,7 @@ const ResumeCard = ({todos, histories}: {todos: number; histories: number}) => {
   const styles = ResumeCardStyles();
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="resume-card">
       <View style={styles.childContainer}>
         <Text style={styles.title}>{todos + histories}</Text>
         <Text style={styles.subTitle}>Total</Text>

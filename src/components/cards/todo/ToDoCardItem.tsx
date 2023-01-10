@@ -61,7 +61,7 @@ const ToDoCardItem = ({
 
   const expandedView = () => {
     return (
-      <View>
+      <View testID="card-expand">
         <View style={[styles.centerTopRow, styles.p40]}>
           <View style={styles.childNormalContainer}>
             <Text style={styles.normalPriorityTitle}>{title}</Text>
@@ -122,7 +122,7 @@ const ToDoCardItem = ({
 
   const normalView = () => {
     return (
-      <View style={styles.normalContainer}>
+      <View style={styles.normalContainer} testID="card-normal">
         <View style={styles.verticalLine} />
         <View style={[styles.centerRow, styles.p40]}>
           <View style={styles.childNormalContainer}>
@@ -163,7 +163,10 @@ const ToDoCardItem = ({
       style={{
         opacity: fadeAnim, // Bind opacity to animated value
       }}>
-      <TouchableOpacity style={styles.container} onPress={() => setView()}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => setView()}
+        testID="card-todo">
         {expanded ? expandedView() : normalView()}
       </TouchableOpacity>
     </Animated.View>

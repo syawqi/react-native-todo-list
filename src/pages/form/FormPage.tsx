@@ -11,11 +11,11 @@ import {TodoListContext} from '../../../App';
 import {imagePath} from '../../assets/assets';
 import CommonAppBar from '../../components/appBar/commons/CommonAppBar';
 import CommonIcon from '../../components/images/common/CommonIcon';
+import theme from '../../theme/theme';
 import {FormPageNavigationProp, FormPageRouteProp} from '../../types/pages';
 import {TodoPriorityType} from '../../types/todo';
 import {callAlert} from '../../utils/alert';
 import FormPageStyles from './FormPage.styles';
-import theme from '../../theme/theme';
 
 const FormPage = () => {
   const navigation = useNavigation<FormPageNavigationProp>();
@@ -77,7 +77,7 @@ const FormPage = () => {
 
   const prioritySelection = () => {
     return (
-      <View style={styles.input}>
+      <View style={styles.input} testID="selection">
         <TouchableOpacity
           style={styles.mb}
           onPressIn={() => setPriorityType(TodoPriorityType.HIGH)}
@@ -128,9 +128,10 @@ const FormPage = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView testID="form">
       <CommonAppBar label={'To Do'} canBack={navigation.canGoBack()} />
       <TextInput
+        testID="titile"
         style={styles.input}
         value={title}
         onChangeText={setTitle}
@@ -139,6 +140,7 @@ const FormPage = () => {
         keyboardType="default"
       />
       <TextInput
+        testID="description"
         style={styles.input}
         value={description}
         onChangeText={setDescription}
@@ -150,6 +152,7 @@ const FormPage = () => {
         prioritySelection()
       ) : (
         <TouchableOpacity
+          testID="button"
           style={styles.input}
           onPress={() => setSelectionMode(true)}>
           <View style={styles.centerRow}>

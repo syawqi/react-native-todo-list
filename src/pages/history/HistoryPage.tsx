@@ -21,6 +21,7 @@ const HistoryPage = () => {
         }}
       />
       <FlatList
+        testID="flatlist-history"
         data={history}
         ListHeaderComponent={() => (
           <ResumeCard todos={todo.length} histories={history.length} />

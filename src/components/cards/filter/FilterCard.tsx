@@ -96,6 +96,7 @@ const FilterCard = ({
 
   return (
     <TouchableOpacity
+      testID="filter-card"
       style={styles.container}
       onPress={() => {
         setSelectionMode(true);
